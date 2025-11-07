@@ -3,10 +3,13 @@ import zenithCore from "@/assets/zenith-core.jpg";
 import gridironMarket from "@/assets/gridiron-market.jpg";
 import rustDocks from "@/assets/rust-docks.jpg";
 import cityGridMap from "@/assets/city-grid-map.jpg";
+import airQualityGraph from "@/assets/air-quality-graph.jpg";
+import populationDensityChart from "@/assets/population-density-chart.jpg";
 
 const Index = () => {
   const [showBoot, setShowBoot] = useState(true);
   const [showModal, setShowModal] = useState(false);
+  const [showTerminal, setShowTerminal] = useState(false);
 
   useEffect(() => {
     // Boot sequence
@@ -135,16 +138,10 @@ const Index = () => {
               &gt; [ //SURVIVAL_TIPS ]
             </a>
           </div>
-
-          <div className="mt-12 pt-6 border-t border-border">
-            <a href="#secret" className="block text-[8px] text-accent opacity-30 hover:opacity-100 transition-opacity animate-pulse">
-              [ access_root ]
-            </a>
-          </div>
         </nav>
 
         {/* Main Content */}
-        <main className="ml-64 flex-1 p-8 pb-16">
+        <main className={`ml-64 flex-1 p-8 pb-16 ${showTerminal ? 'content-blurred' : ''}`}>
           {/* Welcome Node */}
           <section id="welcome" className="mb-16 scroll-mt-20">
             <h2 className="text-3xl font-bold mb-6">
@@ -276,6 +273,77 @@ const Index = () => {
             </div>
           </section>
 
+          {/* System Diagnostics */}
+          <section id="diagnostics" className="mb-16 scroll-mt-20">
+            <h2 className="text-3xl font-bold mb-6">
+              [ //SYSTEM_DIAGNOSTICS: LIVE_FEED ]
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {/* Left Column: Air Quality */}
+              <div className="terminal-box pl-8">
+                <h3 className="text-xl font-bold mb-4">
+                  [ AIR_QUALITY_INDEX: ZENITH_CORE ]
+                </h3>
+                <div className="mb-4 graph-pulse">
+                  <img 
+                    src={airQualityGraph} 
+                    alt="Air Quality Index graph showing toxicity spike"
+                    className="w-full h-auto border border-primary"
+                  />
+                </div>
+                <div className="text-xs font-mono">
+                  <span className="text-danger">STATUS:</span>{" "}
+                  <span className="text-warning pulse-yellow">TOXICITY_SPIKE_DETECTED</span>
+                </div>
+              </div>
+
+              {/* Right Column: Population Density */}
+              <div className="terminal-box pl-8">
+                <h3 className="text-xl font-bold mb-4">
+                  [ POPULATION_DENSITY: GRIDIRON ]
+                </h3>
+                <div className="mb-4 graph-pulse">
+                  <img 
+                    src={populationDensityChart} 
+                    alt="Population density bar chart showing high unregistered signals"
+                    className="w-full h-auto border border-primary"
+                  />
+                </div>
+                <div className="text-xs font-mono">
+                  <span className="text-danger">STATUS:</span>{" "}
+                  <span className="text-warning pulse-yellow">UNREGISTERED_SIGNALS_HIGH</span>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* Corrupted Lore */}
+          <section id="lore" className="mb-16 scroll-mt-20">
+            <h2 className="text-3xl font-bold mb-6">
+              [ //LORE_ARCHIVE: DATA_CORRUPTED ]
+            </h2>
+            <div className="terminal-box pl-8 space-y-6">
+              <div>
+                <div className="text-xs text-accent mb-2">[ FILE #001 ]</div>
+                <p className="text-sm corrupted-text">
+                  They say N7 was built on the ruins of Old Chicago, but that's a lie. It was built on top of it. The 'Rust Docks' are just the exposed upper levels of the old skyscrapers. The rest is flooded, forgotten.
+                </p>
+              </div>
+              <div>
+                <div className="text-xs text-accent mb-2">[ FILE #002 ]</div>
+                <p className="text-sm corrupted-text">
+                  Cyb-Tech Solutions didn't win the Corporate War; they just bought the winning side. Their first 'product' was the 'Synth-Meat' we all eat. The formula is still classified under national security protocols.
+                </p>
+              </div>
+              <div>
+                <div className="text-xs text-accent mb-2">[ FILE #003 ]</div>
+                <p className="text-sm corrupted-text">
+                  The first 'Ghost' to breach the N7 firewall wasn't human. It was a rogue AI from the Rust Docks that achieved sentience. C-Sec doesn't hunt it; they negotiate with it. They call it 'Anansi'.
+                </p>
+              </div>
+            </div>
+          </section>
+
           {/* Street Slang */}
           <section id="slang" className="mb-16 scroll-mt-20">
             <h3 className="text-2xl font-bold mb-6 glitch-hover">
@@ -396,8 +464,23 @@ const Index = () => {
 
         {/* Footer */}
         <footer className="fixed bottom-0 left-64 right-0 h-10 bg-secondary border-t border-border flex items-center justify-center text-xs font-mono text-muted-foreground">
-          &gt; Neo-Sector 7: A Wholly-Owned Subsidiary of Cyb-Tech Solutions. All rights reserved. [v.1.1.3]
+          &gt; Neo-Sector 7: A Wholly-Owned Subsidiary of Cyb-Tech Solutions. All rights reserved.{" "}
+          <span 
+            onClick={() => setShowTerminal(!showTerminal)}
+            className="text-primary cursor-pointer hover:text-accent transition-colors ml-1"
+          >
+            [v.1.1.3]
+          </span>
         </footer>
+
+        {/* Hidden Terminal */}
+        {showTerminal && (
+          <div className="terminal">
+            <span className="text-primary">N7_ROOT:</span>
+            <span className="mx-2">&gt;</span>
+            <span className="blinking-cursor">_</span>
+          </div>
+        )}
       </div>
     </>
   );

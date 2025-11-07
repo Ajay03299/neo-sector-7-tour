@@ -305,4 +305,65 @@ All colors MUST be HSL.
     0%, 100% { border-color: hsl(var(--danger)); }
     50% { border-color: hsl(var(--warning)); }
   }
+
+  /* Corrupted Text Effect */
+  .corrupted-text {
+    font-family: 'Wingdings', 'Webdings', monospace;
+    letter-spacing: 0.5em;
+    transform: scaleX(1.2);
+    color: hsl(var(--muted-foreground));
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .corrupted-text:hover {
+    font-family: 'IBM Plex Mono', monospace;
+    letter-spacing: normal;
+    transform: scaleX(1);
+    color: hsl(var(--foreground));
+  }
+
+  /* Blinking Cursor */
+  @keyframes blink {
+    0%, 50% { opacity: 1; }
+    51%, 100% { opacity: 0; }
+  }
+
+  .blinking-cursor {
+    animation: blink 1s infinite;
+  }
+
+  /* Terminal Styling */
+  .terminal {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 150px;
+    background: hsl(var(--background));
+    border-top: 1px solid hsl(var(--primary));
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    padding-left: 2rem;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 1.2rem;
+    color: hsl(var(--foreground));
+  }
+
+  /* Content Blur Effect */
+  .content-blurred {
+    filter: blur(2px) brightness(0.7);
+    transition: filter 0.3s ease;
+  }
+
+  /* Graph Animation */
+  .graph-pulse {
+    animation: graphPulse 2s ease-in-out infinite;
+  }
+
+  @keyframes graphPulse {
+    0%, 100% { transform: scaleY(1); }
+    50% { transform: scaleY(1.05); }
+  }
 }
