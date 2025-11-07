@@ -1,35 +1,111 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import zenithCore from "@/assets/zenith-core.jpg";
 import gridironMarket from "@/assets/gridiron-market.jpg";
 import rustDocks from "@/assets/rust-docks.jpg";
+import cityGridMap from "@/assets/city-grid-map.jpg";
 
 const Index = () => {
+  const [showBoot, setShowBoot] = useState(true);
+  const [showModal, setShowModal] = useState(false);
+
   useEffect(() => {
+    // Boot sequence
+    const bootTimer = setTimeout(() => {
+      setShowBoot(false);
+    }, 2500);
+
     // Smooth scroll behavior
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
       anchor.addEventListener('click', function (e) {
         e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href') as string);
-        if (target) {
-          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        const href = this.getAttribute('href');
+        
+        if (href === '#secret') {
+          setShowModal(true);
+        } else {
+          const target = document.querySelector(href as string);
+          if (target) {
+            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
         }
       });
     });
+
+    return () => clearTimeout(bootTimer);
   }, []);
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
-      {/* Header Status Bar */}
-      <header className="fixed top-0 left-0 right-0 h-12 bg-card border-b border-primary z-50 flex items-center justify-between px-6 text-xs font-mono">
-        <div className="flex gap-6">
-          <span className="text-foreground">[ STATUS: CONNECTED ]</span>
-          <span className="text-muted-foreground">// SECURE_CHANNEL_v4.2</span>
+    <>
+      {/* Boot Up Sequence */}
+      {showBoot && (
+        <div className="fixed inset-0 bg-background z-[10000] flex items-center justify-center animate-[bootFadeIn_0.5s_ease-in,bootFadeOut_0.5s_ease-out_2s_forwards]">
+          <pre className="text-foreground text-2xl font-bold animate-[bootGlitch_0.5s_ease-in-out_1s]">
+{`
+╔═══════════════════════════════════╗
+║                                   ║
+║      CYB-TECH SOLUTIONS v4.2      ║
+║      NEURAL LINK ESTABLISHED      ║
+║                                   ║
+╚═══════════════════════════════════╝
+`}
+          </pre>
         </div>
-        <div className="flex gap-6">
-          <span className="text-warning animate-pulse">[ GRID_LOAD: 98% (ALERT) ]</span>
-          <span className="text-foreground">[ POPULATION_EST: 44.7M ]</span>
+      )}
+
+      {/* Secret Modal */}
+      {showModal && (
+        <div className="modal-overlay" onClick={() => setShowModal(false)}>
+          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+            <div className="secret-panel p-8 relative">
+              <button 
+                onClick={() => setShowModal(false)}
+                className="absolute top-4 right-4 text-danger text-2xl font-bold hover:text-warning transition-colors"
+              >
+                [ X ]
+              </button>
+              <h2 className="text-3xl font-bold mb-6 text-danger animate-pulse">
+                [ //ROOT_ACCESS: [CLASSIFIED] ]
+              </h2>
+              <div className="space-y-4 text-warning font-mono text-sm leading-relaxed">
+                <p className="text-danger font-bold text-lg animate-pulse">
+                  WARNING: FIREWALL_BREACH_DETECTED
+                </p>
+                <p>
+                  You're not supposed to be here, ghost. The N7 portal is a lie.
+                </p>
+                <p>
+                  The 'Filtered Air' in Zenith Core is a neuro-toxin to keep the population compliant.
+                </p>
+                <p>
+                  'Synth-Noodle Express' is a front. They recycle biomass.
+                </p>
+                <p>
+                  The 'Curfew' isn't for your safety. It's when the clean-up crews harvest unregistered chrome.
+                </p>
+                <p className="font-bold">
+                  You've seen this. You're marked. Get off this net.
+                </p>
+                <p className="text-danger animate-pulse text-center text-lg mt-6">
+                  [ //CONNECTION_TERMINATED... ]
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
-      </header>
+      )}
+
+      <div className="min-h-screen bg-background text-foreground">
+        {/* Header Status Bar */}
+        <header className="fixed top-0 left-0 right-0 h-12 bg-card border-b border-primary z-50 flex items-center justify-between px-6 text-xs font-mono">
+          <div className="flex gap-6">
+            <span className="text-foreground pulse-green">[ STATUS: CONNECTED ]</span>
+            <span className="text-muted-foreground">// SECURE_CHANNEL_v4.2</span>
+          </div>
+          <div className="flex gap-6">
+            <span className="text-warning pulse-yellow">[ GRID_LOAD: 98% (ALERT) ]</span>
+            <span className="text-foreground">[ POPULATION_EST: 44.7M ]</span>
+          </div>
+        </header>
 
       <div className="flex pt-12">
         {/* Left Navigation */}
@@ -71,11 +147,11 @@ const Index = () => {
         <main className="ml-64 flex-1 p-8 pb-16">
           {/* Welcome Node */}
           <section id="welcome" className="mb-16 scroll-mt-20">
-            <h2 className="text-3xl font-bold mb-6 glitch-hover">
+            <h2 className="text-3xl font-bold mb-6">
               [ //WELCOME_NODE: OFFICIAL VISITOR'S PORTAL ]
             </h2>
             <div className="terminal-box pl-8 text-foreground leading-relaxed">
-              <p className="mb-4">
+              <p className="mb-4 typing-text">
                 Welcome to <span className="text-primary font-bold">Neo-Sector 7</span>, the concrete heart of the Megacorp sprawl. 
                 This portal is your 'official' city guide, curated by the N7 Tourism Bureau.
               </p>
@@ -94,17 +170,19 @@ const Index = () => {
 
           {/* District Data */}
           <section id="districts" className="mb-16 scroll-mt-20">
-            <h2 className="text-3xl font-bold mb-6 glitch-hover">
+            <h2 className="text-3xl font-bold mb-6">
               [ //DISTRICT_DATA: KNOW YOUR SECTOR ]
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               {/* Card 1: Zenith Core */}
               <div className="terminal-box pl-8">
-                <img 
-                  src={zenithCore} 
-                  alt="Zenith Core - Elite corporate district with towering skyscrapers"
-                  className="w-full h-48 object-cover mb-4 border border-primary"
-                />
+                <div className="static-overlay mb-4">
+                  <img 
+                    src={zenithCore} 
+                    alt="Zenith Core - Elite corporate district with towering skyscrapers"
+                    className="w-full h-48 object-cover border border-primary district-image"
+                  />
+                </div>
                 <h3 className="text-xl font-bold mb-2">Zenith Core</h3>
                 <p className="text-sm mb-4 text-foreground">
                   The playground of the elite. Filtered air, private security, and sky-high bridges. 
@@ -117,11 +195,13 @@ const Index = () => {
 
               {/* Card 2: Gridiron Market */}
               <div className="terminal-box pl-8">
-                <img 
-                  src={gridironMarket} 
-                  alt="The Gridiron Market - Chaotic street market with noodle stalls and cyber mod shops"
-                  className="w-full h-48 object-cover mb-4 border border-primary"
-                />
+                <div className="static-overlay mb-4">
+                  <img 
+                    src={gridironMarket} 
+                    alt="The Gridiron Market - Chaotic street market with noodle stalls and cyber mod shops"
+                    className="w-full h-48 object-cover border border-primary district-image"
+                  />
+                </div>
                 <h3 className="text-xl font-bold mb-2">The Gridiron Market</h3>
                 <p className="text-sm mb-4 text-foreground">
                   The real heart of N7. A chaotic maze of noodle stalls, cybernetic mod-shops, and data-brokers. 
@@ -134,11 +214,13 @@ const Index = () => {
 
               {/* Card 3: Rust Docks */}
               <div className="terminal-box pl-8">
-                <img 
-                  src={rustDocks} 
-                  alt="The Rust Docks - Industrial port with shipping containers and toxic smog"
-                  className="w-full h-48 object-cover mb-4 border border-primary"
-                />
+                <div className="static-overlay mb-4">
+                  <img 
+                    src={rustDocks} 
+                    alt="The Rust Docks - Industrial port with shipping containers and toxic smog"
+                    className="w-full h-48 object-cover border border-primary district-image"
+                  />
+                </div>
                 <h3 className="text-xl font-bold mb-2">The Rust Docks</h3>
                 <p className="text-sm mb-4 text-foreground">
                   Old-world shipping containers, rogue AI-controlled cranes, and smog so thick it stains your clothes. 
@@ -146,6 +228,49 @@ const Index = () => {
                 </p>
                 <div className="text-xs font-mono">
                   <span className="text-danger">STATUS:</span> <span className="text-danger">CRITICAL (AVOID_AFTER_DARK)</span>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* Live City Grid */}
+          <section id="map" className="mb-16 scroll-mt-20">
+            <h2 className="text-3xl font-bold mb-6">
+              [ //LIVE_CITY_GRID: TRACKING... ]
+            </h2>
+            <div className="terminal-box pl-8">
+              <div className="relative w-full">
+                <img 
+                  src={cityGridMap} 
+                  alt="Neo-Sector 7 City Grid Map - Real-time tracking interface"
+                  className="w-full h-auto border border-primary"
+                />
+                {/* Hotspot 1: Zenith Core - Top Center */}
+                <div className="map-hotspot" style={{ top: '20%', left: '50%' }}>
+                  <div className="map-hotspot-tooltip">
+                    <div className="text-foreground font-mono text-xs">
+                      <div className="font-bold">ZENITH CORE</div>
+                      <div className="text-warning">Status: Regulated</div>
+                    </div>
+                  </div>
+                </div>
+                {/* Hotspot 2: Gridiron Market - Center */}
+                <div className="map-hotspot" style={{ top: '50%', left: '45%' }}>
+                  <div className="map-hotspot-tooltip">
+                    <div className="text-foreground font-mono text-xs">
+                      <div className="font-bold">GRIDIRON MARKET</div>
+                      <div className="text-warning">Status: Unstable</div>
+                    </div>
+                  </div>
+                </div>
+                {/* Hotspot 3: Rust Docks - Bottom Right */}
+                <div className="map-hotspot" style={{ top: '70%', left: '65%' }}>
+                  <div className="map-hotspot-tooltip">
+                    <div className="text-foreground font-mono text-xs">
+                      <div className="font-bold">RUST DOCKS</div>
+                      <div className="text-danger">Status: Critical</div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -266,45 +391,15 @@ const Index = () => {
             </div>
           </section>
 
-          {/* Secret Panel */}
-          <section id="secret" className="mb-16 scroll-mt-20">
-            <div className="secret-panel p-8">
-              <h2 className="text-3xl font-bold mb-6 text-danger animate-pulse">
-                [ //ROOT_ACCESS: [CLASSIFIED] ]
-              </h2>
-              <div className="space-y-4 text-warning font-mono text-sm leading-relaxed">
-                <p className="text-danger font-bold text-lg animate-pulse">
-                  WARNING: FIREWALL_BREACH_DETECTED
-                </p>
-                <p>
-                  You're not supposed to be here, ghost. The N7 portal is a lie.
-                </p>
-                <p>
-                  The 'Filtered Air' in Zenith Core is a neuro-toxin to keep the population compliant.
-                </p>
-                <p>
-                  'Synth-Noodle Express' is a front. They recycle biomass.
-                </p>
-                <p>
-                  The 'Curfew' isn't for your safety. It's when the clean-up crews harvest unregistered chrome.
-                </p>
-                <p className="font-bold">
-                  You've seen this. You're marked. Get off this net.
-                </p>
-                <p className="text-danger animate-pulse text-center text-lg mt-6">
-                  [ //CONNECTION_TERMINATED... ]
-                </p>
-              </div>
-            </div>
-          </section>
         </main>
       </div>
 
-      {/* Footer */}
-      <footer className="fixed bottom-0 left-64 right-0 h-10 bg-secondary border-t border-border flex items-center justify-center text-xs font-mono text-muted-foreground">
-        &gt; Neo-Sector 7: A Wholly-Owned Subsidiary of Cyb-Tech Solutions. All rights reserved. [v.1.1.3]
-      </footer>
-    </div>
+        {/* Footer */}
+        <footer className="fixed bottom-0 left-64 right-0 h-10 bg-secondary border-t border-border flex items-center justify-center text-xs font-mono text-muted-foreground">
+          &gt; Neo-Sector 7: A Wholly-Owned Subsidiary of Cyb-Tech Solutions. All rights reserved. [v.1.1.3]
+        </footer>
+      </div>
+    </>
   );
 };
 
